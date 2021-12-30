@@ -1,0 +1,9 @@
+先在虚拟机增加硬盘容量,关闭虚拟机
+
+使用命令安装分区管理工具gparted:
+sudo apt-get install gparted
+
+使用命令启动分区管理工具
+sudo gparted
+
+选择两个主磁盘区更改大小/移动

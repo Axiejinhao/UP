@@ -1,0 +1,54 @@
+查看服务状态 sudo systemctl status redis-server / sudo service redis-server status
+
+重新启动服务器 sudo systemctl restart redis-server
+
+启动redis redis-cli
+
+string键值:
+	设置键值 set 键 值
+		 mset 键 值 键 值 ...
+
+	获得键值 get 键
+		 mget 键 键 ...
+
+	设置键值有效时间 setex 键 时间(s) 值
+			 expire 键 时间
+
+	获取键的时间 ttl 键
+
+	获取所有的键 keys *(正则表达式)
+
+	判断键值是否存在 exists 键
+
+	判断键值类型 type 键
+
+	删除键值 del 键 键
+
+
+哈希键值:
+	hset 键 域 值
+	hmset 键 域 值 域 值 ...
+	hget 键 域
+	hmget 键 域 域 ...
+	hkeys 键
+	hvals 键
+	hdel 键 域
+	
+	
+列表键值:
+	左侧插入键值 lpush 键 值 值 ...
+	右侧插入键值 rpush 键 值 值 ...
+	从左遍历列表 lrange 键 下标起始 下标终点(0 -1)
+	删除指定元素 lrem 键 count(>0从左侧删除count个 <0从右侧删除count个 =0删除所有) 值
+	
+
+set键值:
+	增加键值 sadd 键 值 值 ...
+	查看所有值 smembers 键
+	移除元素 srem 键 值 值 ...
+	
+
+sortedset键值:
+	增加元素 zadd 键 权 值 权 值 ...
+	查看元素 zrange 键 下标起始 下标终点(0 -1)
+	删除指定元素 zrem 键 值 值 ...

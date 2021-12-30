@@ -1,0 +1,21 @@
+Win10默认开启了SSH的Client(控制别人),没开Server(被别人控制),可用下列操作开启:
+开始:
+左下角右键徽标键,用管理员模式打开powershell,输入
+Get-WindowsCapability -Online | ? Name -like OpenSSH*
+结果可能如下,重要的是后面的版本号
+Name  : OpenSSH.Client~~~~0.0.1.0
+State : NotPresent
+
+Name  : OpenSSH.Server~~~~0.0.1.0
+State : NotPresent
+然后根据版本号修改并运行下列代码(如果某个的State是Installed就不用装那个了)
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+装完后,使用下列命令运行服务
+Start-Service sshd
+可使用这条命令查看服务的运行状态(是否running)
+Get-Service sshd
+启动ssh
+net start sshd
+停止ssh
+net stop sshd

@@ -1,0 +1,6 @@
+安装openssh-server软件包
+apt install openssh-server
+验证SSH是否正在运行
+systemctl status ssh 
+重启SSH
+systemctl restart ssh

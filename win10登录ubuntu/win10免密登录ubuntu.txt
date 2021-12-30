@@ -1,0 +1,9 @@
+PowerShell
+生成当前主机(Windows10)的ssh公钥密钥
+ssh-keygen -t rsa
+将Windows中生成的公钥使用scp命令发送至.ssh文件夹中
+scp id_rsa.pub xjh@192.168.88.129:.ssh
+在.ssh文件夹中生成一个authorized_keys文件
+vim authorized_keys #进入编辑界面后退出保存:wq回车
+将公钥复制到authorized_keys文件
+cat id_rsa.pub >> authorized_keys 

@@ -1,0 +1,17 @@
+pip install jupyter
+
+
+pip uninstall jupyter
+pip install pip-autoremove
+pip-autoremove jupyter -y
+
+pip uninstall jupyter
+pip uninstall jupyter-client
+pip uninstall jupyter-console
+pip uninstall jupyter-core
+pip uninstall jupyter-packaging
+pip uninstall jupyter-server
+pip uninstall jupyterlab
+pip uninstall jupyterlab-pygments
+pip uninstall jupyterlab-server
+pip uninstall jupyterlab-widgets

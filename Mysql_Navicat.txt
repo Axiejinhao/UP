@@ -1,0 +1,76 @@
+一.卸载原来的MySQL
+
+	sudo apt purge mysql-*
+	sudo rm -rf /etc/mysql/ /var/lib/mysql
+	sudo apt autoremove
+	sudo apt autoclean
+
+二.重新安装
+
+	sudo apt-get install mysql-server -y
+	sudo apt install mysql-client  -y
+	sudo apt install libmysqlclient-dev -y
+
+	检验是否安装成功
+	sudo netstat -tap | grep mysql 
+
+	tcp   0   0 0.0.0.0:mysql     0.0.0.0:*   LISTEN   3618/mysqld
+	tcp   0   0 localhost:33060   0.0.0.0:*   LISTEN   3618/mysqld
+
+三.连接mysql
+
+	1.本地连接：
+
+	输入 mysql -u root -p 来登录root账号，但由于之前安装时候没有提示设置root用户的密码，是无法登录的。
+	在这里插入图片描述这里需要用 sudo cat /etc/mysql/debian.cnf 来查找默认用户名密码
+	在这里插入图片描述用client下面的user 和 password来登录 mysql -udebian-sys-maint -p
+	在这里插入图片描述在这里插入图片描述登录成功后，更改root的密码：
+	
+	#user表在mysql这个数据库里
+	mysql> use mysql;
+	#修改密码
+	mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '你的密码';
+	#刷新一下权限
+	mysql> flush privileges;
+
+2.远程登录
+
+	先查看下用户表
+
+	mysql> use mysql;
+	mysql> select user,host from user;
+
+	注：host为%代表任意ip地址都可以连接
+	localhost代表只能本地连接
+	
+	在这里描述添加一个用于远程连接的用户：
+	例：用户名:test 密码：123456
+	create user 'test'@'%' identified by '123456';
+
+	给test用户赋予访问所有数据库的权限
+	mysql> grant all privileges on *.* to 'test'@'%';
+	
+	由于root用户没有SYSTEM_USER权限，把权限加入后即可解决：
+	mysql> grant system_user on *.* to 'root';
+
+	由于Mysql8.0采用了更安全的默认身份验证方式caching_sha2_password，
+	我们如果要使用Navicat premium远程登录
+	就需要更改账户的身份验证方式为mysql_native_password
+	mysql> alter user 'test'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+
+	最后再刷新一下权限：
+
+	mysql> flush privileges;
+
+	然后exit退出来
+	
+	输入 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+	将mysql配置文件中的 127.0.0.1 那行注释掉
+
+	在这里插入图片描述重启mysql服务
+	sudo service mysql restart
+	使用Navicat工具连接mysql数据库
+
+	在这里插入图片描述最后成功连接到mysql数据库
+	
+	主机名使用ip地址或127.0.0.1

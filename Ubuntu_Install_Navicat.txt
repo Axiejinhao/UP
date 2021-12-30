@@ -1,0 +1,112 @@
+1.下载安装包放在合适的位置：/opt/Navicat
+
+sudo mkdir /opt/Navicat
+sudo chown -R 用户名 /opt/Navicat # 给你的账号赋权限
+
+
+
+2.安装libcapstone-dev: sudo apt install libcapstone-dev
+
+
+
+3.安装keystone
+
+    a.安装cmake: sudo apt install cmake
+
+    b.下载keystone
+    	cd /opt 		#进入opt目录
+    	sudo git clone https://github.com/keystone-engine/keystone.git 
+	cd /opt/keystone	#进入keystone文件夹
+	mkdir build		#创建build目录
+	cd build		#进入build目录
+	sudo apt install build-essential	#安装依赖
+	sudo ../make-share.sh		#执行上级目录的make-share.sh脚本
+	sudo make install 	#安装keystone动态库
+	sudo ldconfig		#执行ldconfig动态链接库为系统所共享
+
+
+
+4.安装rapidjson
+
+	sudo apt install rapidjson-dev	
+
+
+
+5.下载编译navicat-keygen-tools
+
+	cd /opt
+	sudo git clone https://github.com/HeQuanX/navicat-keygen-tools.git
+	cd /opt/navicat-keygen-tools	#进入工具目录
+	sudo apt install libssl-dev
+	sudo make all			#执行编译安装
+
+
+
+6.提取AppImage内的文件（第一步下载好，放在Navicat目录下面了）
+
+	cd /opt/Navicat 	#进入Navicat目录
+	mkdir Navicat15	#创建名为Navicat15的目录
+	sudo mount -o loop navicat15-premium-cs.AppImage Navicat15	
+	#将navicat15-premium-cs.AppImage文件挂在到Navicat15目录下
+	sudo mkdir Navicat15-patched	#创建目录
+	sudo cp -r Navicat15 Navicat15-patched
+	#将Navicat15内的文件复制到Navicat15-patcher下面
+	sudo umount Navicat15		#复制完成之后，取消挂载
+	sudo rm -rf Navicat15
+
+  
+
+7.开始patch
+
+	sudo ./navicat-keygen-tools/bin/navicat-patcher ./Navicat15-patched/
+	#会生成一个RegPrivateKey.pem的文件
+	
+
+
+8.下载AppImage
+
+	a. sudo wget 'https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage'
+	b. 打包工具执行权限: sudo chmod +x appimagetool-x86_64.AppImage
+	c. 使用打包工具将刚刚patch好的文件打包成AppImage
+	   sudo ./appimagetool-x86_64.AppImage Navicat15-patched Navicat15-patched.Applmage 
+	   #./打包工具程序 要打包的目录 打包后生成的文件名.AppImage
+
+
+
+
+9、Done（记得断网）
+
+	a. 给打包好的文件加上执行权限并运行
+	   sudo chmod +x Navicat15-patched.AppImage
+	   sudo ./Navicat15-patched.AppImage 
+	b. 打开程序后先不要进行操作，放一边，运行注册机，找到之前navicat-keygen-tools/bin内的navicat-keygen以及之前生成的私钥
+	   新建端口
+	   cd /opt
+	   sudo ./navicat-keygen-tools/bin/navicat-keygen --text RegPrivateKey.pem
+
+		1.选择产品，这里输入1，选择Premium
+		2.选择语言，这里输入1,选择简体中文
+		3.选择版本号，这里输入15
+    		4.然后会看到生成的序列号，复制序列号，完成用户名，和组织的填写
+    		5.回到，刚刚打开的Navicat程序，点击注册
+    		6.把序列号输入进去，点击激活，因为断网，所以选择手动激活
+    		7.复制请求码，粘贴到控制台，按一下回车（千万不要连续按两次，否则会退出，如果没反应，等一下再按一次），然后会出现激活码。
+    		8.复制激活码，粘贴进去，然后点击确定，大功告成！
+
+    
+
+10、创建桌面图标
+
+    在/usr/share/applications/目录下面创建navicat.desktop文件,复制下面的内容放进去,保存就行了。
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Navicat
+Icon=/opt/Navicat/navicat-icon.png #自己找一个navicat的logo
+Exec="/opt/Navicat/Navicat15-patched.AppImage" %f #上面打包好的Appimage文件
+Comment=Navicat
+Categories=Development;Navicat;
+Terminal=false
+StartupWMClass=Navicat
+

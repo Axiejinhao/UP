@@ -1,0 +1,64 @@
+git初始化 sudo git init
+
+设置用户信息 sudo git config user.name xjh
+	     sudo git config user.email xjh9836@gmail.com
+
+连接远程代码库 git remote add origin https://github.com/Axiejinhao/UP.git
+	     
+获取git的状态 sudo git status
+
+将文件从工作区添加到缓存区 sudo git add 文件
+
+将缓存中的文件放入缓存区 sudo git commit -m '信息'
+
+将设置中自动转换功能关闭 git config core.autocrlf false
+
+获得仓库区的记录 sudo git log
+
+获取所有版本历史 sudo git reflog
+
+版本回退 sudo git reset --hard HEAD^(一个^代表回退一个版本)
+	 sudo git reset --hard HEAD~1(数字代表回退版本数)
+	 sudo git reset --hard 版本号
+	 
+从缓存区撤销到工作区 sudo git reset HEAD 文件名
+
+
+上传大文件
+sudo apt-get install git-lfs
+
+安装git lfs（一个仓库里面执行一次就好了）
+git lfs install
+
+git config lfs.https://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@github.com/Axiejinhao/Opencv_base.git/info/lfs.locksverify false
+
+跟踪一下你要上传(push)的文件或指定文件类型
+git lfs track "./park/car1.h5"
+添加.gitattributes(配置文件)
+git add .gitattributes
+
+
+
+git add ./park/car1.h5
+git commit -m ""
+git push
+
+
+
+增加git缓冲区大小(5G)
+git config --global http.postBuffer 524288000
+
+查看设置值
+git config --list
+
+将本地文件推送到远程仓库 sudo git push
+git push 提交到 github
+	git remote set-url origin https://<your_token>@github.com/<USERNAME>/<REPO>.git
+	<your_token>：换成你自己得到的token
+	<USERNAME>：是你自己github的用户名
+	<REPO>：是你的仓库名称
+	例如:
+	git remote set-url origin https://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@github.com/Axiejinhao/meiduo.git
+	git remote set-url origin https://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@github.com/Axiejinhao/Opencv_base.git
+	git remote set-url origin https://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@github.com/Axiejinhao/UP.git
+

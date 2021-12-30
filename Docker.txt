@@ -1,0 +1,83 @@
+Docker = 镜像 + 容器(运行的镜像) + 仓库
+
+
+更新包
+sudo apt-get update
+
+sudo apt-get install apt-transport-https ca-certificates software-properties-common curl
+
+更新源Docker-ce
+curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu \
+$(lsb_release -cs) stable"
+
+#注意：添加错了可以用以下命令删除
+#查询keyid,下图
+sudo apt-key list
+#keyid 就是90那一串
+sudo apt-key del <keyid>
+#加参数-r可以移除
+sudo add-apt-repository -r "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+更新软件包缓存
+sudo apt-get update
+
+安装 Docker-ce
+sudo apt-get install docker-ce
+
+测试运行
+sudo docker run hello-world
+
+查看所有镜像
+sudo docker image ls
+
+安装镜像
+sudo docker pull mysql/ubuntu/redis...
+
+删除镜像
+sudo docker image rm redis:lastest
+
+将镜像打包输出成压缩包
+sudo docker save -o redis.zip redis
+
+将压缩包加载成镜像
+sudo docker load -i '/home/xjh/Desktop/redis.zip'
+
+
+
+
+容器的开启和关闭
+sudo docker container start/stop 容器id/容器名NAMES
+
+显示所有容器
+sudo docker container ls --all/-a
+
+删除容器
+sudo docker container rm 容器id/容器名NAMES(只能删除停止的容器)
+
+运行镜像
+sudo docker run [选项] [--name=容器名] 镜像名:TAG(tag=latest可省略)
+sudo docker run -it [--name=abc] ubuntu
+-i 交互模式运行容器
+-t 容器启动后会进入命令行
+-d 后台运行不会自动登录容器,退出后容器仍在运行
+
+创建tracker容器
+sudo docker run -dti --network=host --name tracker -v /var/fdfs/tracker:/var/fdfs -v /etc/localtime:/etc/localtime delron/fastdfs tracker
+-dit 守护进程方式运行容器
+--network=host 设置ip为本机ip地址
+-v ubuntu目录:容器目录 给容器映射一个真实的目录环境
+
+创建storage容器
+sudo docker run -dti --network=host --name storage -e TRACKER_SERVER=192.168.88.129:22122 -v /var/fdfs/storage:/var/fdfs -v /etc/localtime:/etc/localtime  delron/fastdfs storage
+-e TRACKER_SERVER=192.168.88.129:22122 本机ip:22122
+
+创建Elasticsearch-ik
+sudo docker run -dti --name=elasticsearch --network=host -v /var/elasticsearch-2.4.6/config:/usr/share/elasticsearch/config delron/elasticsearch-ik:2.4.6-1.0
+ 
+创建mysql
+sudo docker run -itd --name mysql-slave -e MYSQL_ROOT_PASSWORD=mysql -p 8306:3306 --restart=always -v /var/mysql_slave/data:/var/lib/mysql -v /var/mysql_slave/mysql.conf.d:/etc/mysql/mysql.conf.d mysql:8.0.26
+终端:mysql -uroot -p -h 127.0.0.1 --port=8306
+
+

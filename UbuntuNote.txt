@@ -1,0 +1,195 @@
+终端命令格式
+command [-options] [parameter]
+command:命令名,相应功能的英文单词或单词缩写
+[-options]:选项,可用来对命令控制,也可省略
+[parameter]:传给命令的参数
+
+显示 command 命令的帮助信息 command --help 或 man command
+查看执行命令所在位置 which
+关机/重启 shutdown / shutdown -r
+
+
+切换用户
+切换用户或进入root模式 su -(切换到家目录) [用户名]
+退出用户或退出root模式 exit
+
+
+
+文件操作
+查看当前文件夹下的内容 ls
+查看当前所在文件夹 pwd
+切换文件夹 cd 目录名
+如果文件不存在新建文件 touch 文件名
+创建目录 mkdir 目录名
+删除指定的文件名 rm 文件名
+移动/重命名指定的文件 mv 文件名 [移动的位置] / mv 文件名 文件名
+以树状图列出文件目录结构 tree
+复制文件或目录 cp 源文件 目标文件
+查看文件内容,创建文件,文件合并,追加文件内容等 cat 123.text
+分屏查看文件内容 more 123.text
+搜索文本文件内容 grep 文字
+在终端显示指定文字 echo python (help echo)
+将终端上的内容输出/追加到指定文件 ls -lh > 123.text(覆盖) / ls -lh >> 123.text(追加)
+将一个命令的输出通过管道作为另一个命令的输入 grep a 文件 | more
+
+
+
+
+IP设置
+查看/配置计算机当前的网卡配置信息 ifconfig
+检测到目标ip地址连接是否正常 ping ip地址
+
+
+
+
+查看端口使用情况
+sudo netstat -ntpl
+
+
+
+查看网址DNS使用情况
+nslookup
+
+
+
+
+远程控制
+远程控制管理命令 ssh [-p port](端口) user(用户名)@remote(IP/域名)
+		 ssh -p 22 xjh@192.168.88.129
+		 
+远程控制拷贝文件 scp -P 22(port) 123.txt user@remote:Desktop(以用户家目录为参照目录)
+		 scp -P 22(port) user@remote:Desktop/123.text .
+		 传输文件夹 scp -P 22(port) -r user@remote:Desktop demo
+
+远程控制ubuntu连接免密登陆 ssh-keygen生成ssh钥匙
+				ssh-copy-id -p port user@remote上传公钥
+
+
+
+清屏 clear
+
+
+
+权限管理
+修改用户/组对文件/目录的权限 chmod +/-rwx 文件名/目录名
+			     chmod -R 755(rwx二进制表示用户/组/其他) 文件名/目录名
+递归修改文件目录所在组 chgrp -R 组名 文件/目录名
+修改文件|目录的拥有者 chown 用户名 文件/目录名
+
+
+
+组管理
+添加组 groupadd 组名
+删除组 groupdel 组名
+确认组信息 cat /etc/group组名
+递归修改文件目录所在组 chgrp -R 组名 文件/目录名
+
+
+
+用户管理
+添加新用户 useradd -m -g 组 新建用户名
+设置用户密码 passwd 用户名
+删除用户 userdel -r(删除用户家目录) 用户名
+确认用户信息 cat etc/passwd | grep 用户名
+设置用户的主组/附加组(增加用户权限)和Shell类型 usermod -g(主组)/-G(附加组) 组 用户名
+					      usermod -s /bin/bash 用户名
+
+
+
+查看用户信息
+查看用户id和组id id 用户名
+查看当前所有登录的用户列表 who
+查看当前登录用户的账户名 whoami
+
+
+
+日期和时间
+查看系统时间 dete
+查看日历 cal [-y](一年)
+
+
+
+磁盘信息
+显示磁盘剩余空间 df -h
+显示目录下文件大小 du -h [目录名]
+
+
+
+进程信息
+查看进程详细状况 ps a(显示终端所有进程)u(显示详细信息)[x](显示没有控制终端的进程)
+动态显示运行中的进程并排序 top(q退出) / htop
+终止指定代号的进程 kill [-9](自强终止) 进程代号
+
+
+
+查找文件
+查找文件 find [路径] -name "正则表达式"
+
+
+
+软链接
+建立文件软链接类似于快捷方式 ln -s 源文件路径 链接别名
+			     ln -s Python/01.py 01_kuaijie
+			     链接别名->文件名->文件数据
+硬链接
+建立文件硬链接类似于文件复制 ln 源文件路径 链接文件别名
+			     链接别名->文件数据
+
+
+
+打包/解包
+打包 tar -cvf 文件名.tar 被打包文件/路径
+解包 tar -xvf 文件名.tar
+
+
+
+压缩/解压缩
+压缩文件 (gzip)tar -zcvf 文件名.tar.gz 被打包文件/路径
+	 (bzip2)tar -jcvf 文件名.tar.bz2 被打包文件/路径
+解压缩文件 (gzip)tar -zxvf 文件名.tar.gz
+	   (bzip2)tar -jxvf 文件名.tar.bz2
+解压缩文件到指定路径 tar -zxvf 文件名.tar.gz -C 目标路径
+解压缩zip文件 unzip 文件名.zip
+		unzip -O CP936 xxx.zip 
+压缩zip文件 zip -r 文件名.zip 文件夹名
+
+
+
+在终端执行脚本文件的解释程序 python:#! usr/bin/python3
+
+
+
+软件安装删除
+软件安装 sudo apt install softname
+软件卸载 sudo apt remove softname
+更新以安装的包 sudo apt upgrade
+软件卸载并清除配置 sudo apt purge softname
+清理不再使用的依赖和库文件 sudo apt autoremove
+安装DEB软件包 dpkg -i softname.deb
+
+
+
+批量图片转换
+sudo apt install imagemagick
+sudo apt-get install parallel
+----------- 从 PNG 转换到 JPG -----------
+$ parallel convert '{}' '{.}.jpg' ::: *.png
+----------- 从 JPG 转换到 PNG -----------
+$ parallel convert '{}' '{.}.png' ::: *.jpg
+
+
+
+安装flash
+官网下载合适的包 flash_player_npapi_linux.x86_64.tar.gz
+sudo mkdir /usr/lib/mozilla/plugins
+将libflashplayer.so复制到plugins文件夹下
+sudo cp ./libflashplayer.so /usr/lib/mozilla/plugins
+
+
+
+Github:
+Ubuntu下载github中的文件 sudo git clone 网址
+修改Github的DNS域名(http://tool.chinaz.com 网站查询) sudo vim /etc/hosts
+							sudo /etc/init.d/networking restart
+
+

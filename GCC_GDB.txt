@@ -1,0 +1,13 @@
+将.c文件编译成.o可运行文件 gcc hello.c -o hello
+			   ./hello
+
+使用GDB调试工具编译 gcc -o test -g test.c
+		    gdb test
+		显示代码及行数 l
+		设置断点 b 行数 / b 函数名
+		显示所有断点信息 info b
+		运行/退出程序 run/q
+		打印变量 p 变量名
+		单步调试 s
+		继续运行 c
+		

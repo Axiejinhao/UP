@@ -1,0 +1,12 @@
+pip install 到指定的目录下
+pip install opencv-python==4.5.2.54 --target=/home/xjh/.local/lib/python3.8/site-packages/
+--target=/home/xjh/anaconda3/lib/python3.8/site-packages
+添加镜像,在~/.pip/pip.conf中添加:
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+
+查看pip包的位置用
+pip show opencv-python
+
+查看当前Python版本匹配的文件
+pip debug --verbose
