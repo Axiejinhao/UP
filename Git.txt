@@ -1,3 +1,24 @@
+从github克隆下来的文件:
+	
+设置用户信息 
+sudo git config user.name xjh
+sudo git config user.email xjh9836@gmail.com
+
+git remote set-url origin https://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@github.com/Axiejinhao/UP.git
+
+将文件从工作区添加到缓存区
+sudo git add 文件
+
+将缓存中的文件放入缓存区
+sudo git commit -m '信息'
+
+
+
+
+
+
+本地上传文件:
+
 git初始化 sudo git init
 
 设置用户信息 sudo git config user.name xjh
